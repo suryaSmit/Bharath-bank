@@ -142,8 +142,46 @@ public class TestExecution {
 		driver.switchTo().alert().accept();
 		System.out.println(alertText);
 	}
-
 	
+	
+	@Test(priority=8)
+	public void testRoleReset() {
+		adminHomePage.clickRolesButton();
+		rolePage.clickNewRole();
+		newRolePage.fillRoleName("Regional Manager 1");
+		newRolePage.selectRoleType("E");
+		newRolePage.clickReset();
+		
+	}
+
+	@Test(priority=9)
+	public void testRoleCancel() {
+		adminHomePage.clickRolesButton();
+		rolePage.clickNewRole();
+		newRolePage.clickCancel();
+		
+	}
+	
+	@Test(priority =10)
+	public void testEmployeeReset() {
+		adminHomePage.clickEmployeeButton();
+		employeePage.clickNewEmployee();
+		newEmployeePage.fillEmpName("bharath");
+		newEmployeePage.fillPassword("selenium");
+		newEmployeePage.selectRole("Regional Manager 1");
+		newEmployeePage.selectBranch("kukatpally branch 1");
+		newEmployeePage.clickReset();
+		
+	}
+	
+	@Test(priority =11)
+	public void testEmployeeCanel() {
+		adminHomePage.clickEmployeeButton();
+		employeePage.clickNewEmployee();
+		newEmployeePage.clickCancel();
+		
+	}
+
 
 	@AfterClass
 	public void close() {
