@@ -5,7 +5,6 @@
         <classes>
             <class name="in.srsssprojects.admin.TestExecution">
                 <methods>
-                   
                     <exclude name="testBranchSearch"></exclude>
                     <exclude name="testBranchSearchClear"></exclude>
                 </methods>
