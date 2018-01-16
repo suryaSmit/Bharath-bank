@@ -31,7 +31,7 @@
 				<version>2.20.1</version>
 				<configuration>
 					<suiteXmlFiles>
-						<suiteXmlFile>suite.xml</suiteXmlFile>
+						<suiteXmlFile>includeorexclude.xml</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>

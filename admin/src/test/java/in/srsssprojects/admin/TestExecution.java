@@ -17,12 +17,41 @@ public class TestExecution {
 	 * employee creation
 	 * roles page
 	 * employee page
+	 * 
+	 * 16th assignment
+	 * testRoleCreationReset
+	 * testRoleCreationCancel
+	 *testEmployeeCreationReset
+	 *testEmployeeCreationCancel
 	 */
 	
 	WebDriver driver;
 	BankHomePage bankHomePage;
 	AdminHomePage adminHomePage;
 	BranchesPage branchesPage;
+	NewBranchPage newBranchPage;
+	RolePage rolePage;
+	NewRolePage newRolePage;
+	EmployeePage employeePage;
+	NewEmployeePage newEmployeePage;
+	
+	@BeforeClass
+	public void launch() {
+		System.setProperty("webdriver.gecko.driver", ".//drivers/geckodriver");
+		driver = new FirefoxDriver();
+		driver.get("http://www.srssprojects.in");
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		bankHomePage = new BankHomePage();
+		adminHomePage = new AdminHomePage(driver);
+		branchesPage = new BranchesPage(driver);
+		newBranchPage = new NewBranchPage(driver);
+		rolePage = new RolePage(driver);
+		newRolePage = new NewRolePage(driver);
+		employeePage = new EmployeePage(driver);
+		newEmployeePage = new NewEmployeePage(driver);
+		
+	}
 	
 	@Test(priority =0)
 	public void testLogin() {
@@ -50,20 +79,71 @@ public class TestExecution {
 		branchesPage.clickSearch();
 		branchesPage.clickClear();
 	}
-
-	@BeforeClass
-	public void launch() {
-		System.setProperty("webdriver.gecko.driver", ".//drivers/geckodriver");
-		driver = new FirefoxDriver();
-		driver.get("http://www.srssprojects.in");
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		bankHomePage = new BankHomePage();
-		adminHomePage = new AdminHomePage(driver);
-		branchesPage = new BranchesPage(driver);
-		
+	
+	@Test(priority=3)
+	public void testBranchCreation() {
+		adminHomePage.clickbranchesButton();
+		branchesPage.clickNewBranch();
+		newBranchPage.fillbranchName("kukatpally branch 1");
+		newBranchPage.filladdress1("kukatpally");
+		newBranchPage.fillzip("50050");
+		newBranchPage.selectCountry("INDIA");
+		newBranchPage.selectState("Delhi");
+		newBranchPage.selectCity("Delhi");
+		newBranchPage.clickSubmit();
+		String alertText = driver.switchTo().alert().getText();
+		driver.switchTo().alert().accept();
+		System.out.println(alertText);
 		
 	}
+	
+	@Test(priority=4)
+	public void testBranchCreationReset() {
+		adminHomePage.clickbranchesButton();
+		branchesPage.clickNewBranch();
+		newBranchPage.fillbranchName("kukatpally branch 1");
+		newBranchPage.filladdress1("kukatpally");
+		newBranchPage.fillzip("50050");
+		newBranchPage.selectCountry("INDIA");
+		newBranchPage.selectState("Delhi");
+		newBranchPage.selectCity("Delhi");
+		newBranchPage.clickReset();
+	}
+	
+	@Test(priority=5)
+	public void testBranchCreationCancel() {
+		adminHomePage.clickbranchesButton();
+		branchesPage.clickNewBranch();
+		newBranchPage.clickCancel();
+	}
+	
+	@Test(priority=6)
+	public void testRoleCreation() {
+		adminHomePage.clickRolesButton();
+		rolePage.clickNewRole();
+		newRolePage.fillRoleName("Regional Manager 1");
+		newRolePage.selectRoleType("E");
+		newRolePage.clickSubmit();
+		String alertText = driver.switchTo().alert().getText();
+		driver.switchTo().alert().accept();
+		System.out.println(alertText);
+		
+	}
+	@Test(priority =7)
+	public void testEmployeeCreation() {
+		adminHomePage.clickEmployeeButton();
+		employeePage.clickNewEmployee();
+		newEmployeePage.fillEmpName("bharath");
+		newEmployeePage.fillPassword("selenium");
+		newEmployeePage.selectRole("Regional Manager 1");
+		newEmployeePage.selectBranch("kukatpally branch 1");
+		newEmployeePage.clickSubmit();
+		String alertText = driver.switchTo().alert().getText();
+		driver.switchTo().alert().accept();
+		System.out.println(alertText);
+	}
+
+	
 
 	@AfterClass
 	public void close() {

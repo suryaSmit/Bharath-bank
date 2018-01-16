@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="suite">
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="suite" parallel="tests" thread-count="2">
     <test name="test">
         <classes>
-            <class name="in.srsssprojects.admin.TestExecution"/>
+            <class name="in.srsssprojects.admin.TestExecution">
+            </class>
         </classes>
     </test>
 </suite>

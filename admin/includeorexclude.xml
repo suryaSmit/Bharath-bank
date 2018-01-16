@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="include and exclude">
+    <test name="test casess">
+        <classes>
+            <class name="in.srsssprojects.admin.TestExecution">
+                <methods>
+                   
+                    <exclude name="testBranchSearch"></exclude>
+                    <exclude name="testBranchSearchClear"></exclude>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
