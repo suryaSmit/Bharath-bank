@@ -31,7 +31,7 @@
 				<version>2.20.1</version>
 				<configuration>
 					<suiteXmlFiles>
-						<suiteXmlFile>includeorexclude.xml</suiteXmlFile>
+						<suiteXmlFile>parallel.xml</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>3.8.1</version>
+			<version>3.7.1</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
 		<dependency>

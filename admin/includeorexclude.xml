@@ -3,7 +3,7 @@
 <suite name="include and exclude">
     <test name="test casess">
         <classes>
-            <class name="in.srsssprojects.admin.TestExecution">
+            <class name="in.srsssprojects.admin.BasicExecution">
                 <methods>
                     <exclude name="testBranchSearch"></exclude>
                     <exclude name="testBranchSearchClear"></exclude>

@@ -1,13 +1,18 @@
 package in.srsssprojects.admin;
 
 import org.testng.annotations.Test;
+
+import utility.Listener;
+
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
 
 public class TestExecution {
@@ -25,7 +30,9 @@ public class TestExecution {
 	 *testEmployeeCreationCancel
 	 */
 	
-	WebDriver driver;
+	WebDriver wdriver;
+	EventFiringWebDriver driver;
+	Listener listener;
 	BankHomePage bankHomePage;
 	AdminHomePage adminHomePage;
 	BranchesPage branchesPage;
@@ -35,11 +42,15 @@ public class TestExecution {
 	EmployeePage employeePage;
 	NewEmployeePage newEmployeePage;
 	
-	@BeforeClass
-	public void launch() {
-		System.setProperty("webdriver.gecko.driver", ".//drivers/geckodriver");
-		driver = new FirefoxDriver();
-		driver.get("http://www.srssprojects.in");
+	public void eventsHandle() {
+		driver = new EventFiringWebDriver(wdriver);
+		listener = new Listener();
+		driver.register(listener);
+	}
+	
+	public void setup() {
+		eventsHandle();
+		driver.get("http://srssprojects.in");
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		bankHomePage = new BankHomePage();
@@ -50,18 +61,18 @@ public class TestExecution {
 		newRolePage = new NewRolePage(driver);
 		employeePage = new EmployeePage(driver);
 		newEmployeePage = new NewEmployeePage(driver);
-		
 	}
 	
-	@Test(priority =0)
-	public void testLogin() {
+	@Test(priority =0, timeOut=10000, alwaysRun = true, groups= {"branch","role","employee","create","reset","cancel", "search"})
+	public void testLogin() throws InterruptedException {
 		bankHomePage.fillUserName(driver, "Admin");
 		bankHomePage.fillPassword(driver, "Admin");
+//		Thread.sleep(3000);
 		bankHomePage.clickLoginButton(driver);
 		
 	}
 	
-	@Test(priority =1)
+	@Test(priority =1, groups= {"branch","search"})
 	public void testBranchSearch() {
 		adminHomePage.clickbranchesButton();
 		branchesPage.selectCountry("INDIA");
@@ -70,7 +81,7 @@ public class TestExecution {
 		branchesPage.clickSearch();
 	}
 	
-	@Test(priority =2)
+	@Test(priority =2, groups= {"branch", "search"})
 	public void testBranchSearchClear() {
 		adminHomePage.clickbranchesButton();
 		branchesPage.selectCountry("INDIA");
@@ -80,11 +91,11 @@ public class TestExecution {
 		branchesPage.clickClear();
 	}
 	
-	@Test(priority=3)
+	@Test(priority=3, groups= {"branch","create"})
 	public void testBranchCreation() {
 		adminHomePage.clickbranchesButton();
 		branchesPage.clickNewBranch();
-		newBranchPage.fillbranchName("kukatpally branch 1");
+		newBranchPage.fillbranchName("kukatpally branch 2");
 		newBranchPage.filladdress1("kukatpally");
 		newBranchPage.fillzip("50050");
 		newBranchPage.selectCountry("INDIA");
@@ -93,15 +104,15 @@ public class TestExecution {
 		newBranchPage.clickSubmit();
 		String alertText = driver.switchTo().alert().getText();
 		driver.switchTo().alert().accept();
-		System.out.println(alertText);
+		Reporter.log(alertText, true);
 		
 	}
 	
-	@Test(priority=4)
+	@Test(priority=4, groups= {"branch","reset"})
 	public void testBranchCreationReset() {
 		adminHomePage.clickbranchesButton();
 		branchesPage.clickNewBranch();
-		newBranchPage.fillbranchName("kukatpally branch 1");
+		newBranchPage.fillbranchName("kukatpally branch 2");
 		newBranchPage.filladdress1("kukatpally");
 		newBranchPage.fillzip("50050");
 		newBranchPage.selectCountry("INDIA");
@@ -110,41 +121,41 @@ public class TestExecution {
 		newBranchPage.clickReset();
 	}
 	
-	@Test(priority=5)
+	@Test(priority=5, groups= {"branch","cancel"})
 	public void testBranchCreationCancel() {
 		adminHomePage.clickbranchesButton();
 		branchesPage.clickNewBranch();
 		newBranchPage.clickCancel();
 	}
 	
-	@Test(priority=6)
+	@Test(priority=6, groups= {"role","create"})
 	public void testRoleCreation() {
 		adminHomePage.clickRolesButton();
 		rolePage.clickNewRole();
-		newRolePage.fillRoleName("Regional Manager 1");
+		newRolePage.fillRoleName("Regional Manager 2");
 		newRolePage.selectRoleType("E");
 		newRolePage.clickSubmit();
 		String alertText = driver.switchTo().alert().getText();
 		driver.switchTo().alert().accept();
-		System.out.println(alertText);
+		Reporter.log(alertText, true);
 		
 	}
-	@Test(priority =7)
+	@Test(priority =7, dependsOnMethods= {"testBranchCreation", "testRoleCreation"}, groups= {"employee","create"})
 	public void testEmployeeCreation() {
 		adminHomePage.clickEmployeeButton();
 		employeePage.clickNewEmployee();
 		newEmployeePage.fillEmpName("bharath");
 		newEmployeePage.fillPassword("selenium");
-		newEmployeePage.selectRole("Regional Manager 1");
-		newEmployeePage.selectBranch("kukatpally branch 1");
+		newEmployeePage.selectRole("Regional Manager 2");
+		newEmployeePage.selectBranch("kukatpally branch 2");
 		newEmployeePage.clickSubmit();
 		String alertText = driver.switchTo().alert().getText();
 		driver.switchTo().alert().accept();
-		System.out.println(alertText);
+		Reporter.log(alertText, true);
 	}
 	
 	
-	@Test(priority=8)
+	@Test(priority=8, groups= {"role","reset"})
 	public void testRoleReset() {
 		adminHomePage.clickRolesButton();
 		rolePage.clickNewRole();
@@ -154,7 +165,7 @@ public class TestExecution {
 		
 	}
 
-	@Test(priority=9)
+	@Test(priority=9, groups= {"role","cancel"})
 	public void testRoleCancel() {
 		adminHomePage.clickRolesButton();
 		rolePage.clickNewRole();
@@ -162,7 +173,7 @@ public class TestExecution {
 		
 	}
 	
-	@Test(priority =10)
+	@Test(priority =10, groups= {"employee","reset"})
 	public void testEmployeeReset() {
 		adminHomePage.clickEmployeeButton();
 		employeePage.clickNewEmployee();
@@ -174,18 +185,11 @@ public class TestExecution {
 		
 	}
 	
-	@Test(priority =11)
+	@Test(priority =11, groups= {"employee","cancel"})
 	public void testEmployeeCanel() {
 		adminHomePage.clickEmployeeButton();
 		employeePage.clickNewEmployee();
 		newEmployeePage.clickCancel();
 		
 	}
-
-
-	@AfterClass
-	public void close() {
-		driver.close();
-	}
-
 }
