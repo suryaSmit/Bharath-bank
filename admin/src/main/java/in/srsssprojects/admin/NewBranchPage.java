@@ -72,6 +72,10 @@ public class NewBranchPage {
 		new Select(this.country).selectByVisibleText(country);
 	}
 
+	//return country selected option
+	public String getSelectedOptionValue() {
+		return new Select(this.country).getFirstSelectedOption().getText();
+	}
 	// select state
 	public void selectState(String state) {
 		new Select(this.state).selectByVisibleText(state);

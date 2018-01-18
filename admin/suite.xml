@@ -6,6 +6,8 @@
 			<class name="in.srsssprojects.admin.BasicExecution">
 				<methods>
 					<include name="testLogin"></include>
+					<include name="testRoleCreationWithDP"></include>
+				
 				</methods>
 			</class>
 		</classes>
