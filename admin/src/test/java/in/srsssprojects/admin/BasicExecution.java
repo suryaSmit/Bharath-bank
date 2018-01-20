@@ -18,6 +18,7 @@ public class BasicExecution extends TestExecution{
 	@AfterClass( groups= {"branch","role","employee","create","reset","cancel"})
 	public void close() {
 		driver.close();
+//		report.flush();
 	}
 
 	

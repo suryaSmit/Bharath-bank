@@ -2,12 +2,18 @@ package in.srsssprojects.admin;
 
 import org.testng.annotations.Test;
 
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
 import utility.DataFromExcel;
 import utility.ExcelUtility;
 import utility.Listener;
+import utility.TestListener;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 
 import static org.testng.Assert.assertEquals;
@@ -19,9 +25,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.Assert;
+import org.testng.IInvokedMethod;
+import org.testng.ITestClass;
+import org.testng.ITestNGMethod;
+import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 
+@Listeners(TestListener.class)
 public class TestExecution {
 	/*
 	 * branch creation page role creation page employee creation roles page employee
@@ -43,6 +55,8 @@ public class TestExecution {
 	EmployeePage employeePage;
 	NewEmployeePage newEmployeePage;
 	ExcelUtility excel;
+//	ExtentReports report;
+//	ExtentTest test;
 
 	public void eventsHandle() {
 		driver = new EventFiringWebDriver(wdriver);
@@ -63,20 +77,32 @@ public class TestExecution {
 		newRolePage = new NewRolePage(driver);
 		employeePage = new EmployeePage(driver);
 		newEmployeePage = new NewEmployeePage(driver);
-		excel = new ExcelUtility(".//resources/");
+//		excel = new ExcelUtility(".//resources/");
+//		report = new ExtentReports(".//report.html");
 	}
 
 	@Test(priority = 0, timeOut = 10000, alwaysRun = true, groups = { "branch", "role", "employee", "create", "reset",
 			"cancel", "search" })
 	public void testLogin() throws InterruptedException {
+//		test = report.startTest("testLogin");
 		bankHomePage.fillUserName(driver, "Admin");
+//		test.log(LogStatus.INFO, "username fillied with Admin");
 		bankHomePage.fillPassword(driver, "Admin");
+//		test.log(LogStatus.INFO, "password filled with Admin");
 		// Thread.sleep(3000);
 		bankHomePage.clickLoginButton(driver);
+//		test.log(LogStatus.INFO, "login button cliked");
 		String actualResult = driver.getCurrentUrl();
 		Assert.assertEquals(actualResult, ExpectedResult.testLogin);
-
+//		test.log(LogStatus.PASS, "test case is passed");
+//		report.endTest(test);
 	}
+
+//	@AfterMethod
+//	public void testResult() {
+//		ITestResult.SUCCESS)
+//		test.log(logStatus, ITestResult.SUCCESS);
+//	}
 
 	@Test(priority = 1, groups = { "branch", "search" })
 	public void testBranchSearch() {
@@ -144,10 +170,11 @@ public class TestExecution {
 		}
 
 	}
-	
 
-	@Test(priority = 13, groups = { "branch", "create" },dataProviderClass=utility.DataFromExcel.class, dataProvider="branchData")
-	public void testBranchCreationWithDP(String bname, String add1, String zcode, String country, String state, String city) {
+	@Test(priority = 13, groups = { "branch",
+			"create" }, dataProviderClass = utility.DataFromExcel.class, dataProvider = "branchData")
+	public void testBranchCreationWithDP(String bname, String add1, String zcode, String country, String state,
+			String city) {
 		adminHomePage.clickbranchesButton();
 		branchesPage.clickNewBranch();
 		newBranchPage.fillbranchName(bname);
@@ -186,8 +213,9 @@ public class TestExecution {
 		branchesPage.clickNewBranch();
 		newBranchPage.clickCancel();
 	}
-	
-	@Test(priority = 14, groups = { "role", "create" },dataProviderClass=utility.DataFromExcel.class, dataProvider="roleData")
+
+	@Test(priority = 14, groups = { "role",
+			"create" }, dataProviderClass = utility.DataFromExcel.class, dataProvider = "roleData")
 	public void testRoleCreationWithDP(String rname, String rtype) {
 		adminHomePage.clickRolesButton();
 		rolePage.clickNewRole();
@@ -230,11 +258,19 @@ public class TestExecution {
 
 	@Test(priority = 8, groups = { "role", "reset" })
 	public void testRoleReset() {
+//		test = report.startTest("testRoleReset");
 		adminHomePage.clickRolesButton();
+//		test.log(LogStatus.INFO, "roles button clicked");
 		rolePage.clickNewRole();
+//		test.log(LogStatus.INFO, "new role button clicked");
 		newRolePage.fillRoleName("Regional Manager 1");
+//		test.log(LogStatus.INFO, "role nate entered");
 		newRolePage.selectRoleType("E");
+//		test.log(LogStatus.INFO, "role type seleced");
 		newRolePage.clickReset();
+//		test.log(LogStatus.INFO, "reset button clicked");
+//		test.log(LogStatus.PASS, "test passed");
+//		report.endTest(test);
 
 	}
 

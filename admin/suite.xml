@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="suite">
+<!-- <listeners>
+<listener class-name="utility.TestListener"></listener>
+</listeners> -->
 	<test name="test">
 		<classes>
 			<class name="in.srsssprojects.admin.BasicExecution">
 				<methods>
 					<include name="testLogin"></include>
-					<include name="testRoleCreationWithDP"></include>
+					<include name="testBranchCreationWithDP"></include>
 				
 				</methods>
 			</class>
