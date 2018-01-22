@@ -9,7 +9,7 @@
 			<class name="in.srsssprojects.admin.BasicExecution">
 				<methods>
 					<include name="testLogin"></include>
-					<include name="testBranchCreationWithDP"></include>
+					<include name="testBranchCreation"></include>
 				
 				</methods>
 			</class>

@@ -21,6 +21,8 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
@@ -42,6 +44,7 @@ public class TestExecution {
 	 * 16th assignment testRoleCreationReset testRoleCreationCancel
 	 * testEmployeeCreationReset testEmployeeCreationCancel
 	 */
+	// public static Dimension d;
 
 	WebDriver wdriver;
 	EventFiringWebDriver driver;
@@ -55,8 +58,8 @@ public class TestExecution {
 	EmployeePage employeePage;
 	NewEmployeePage newEmployeePage;
 	ExcelUtility excel;
-//	ExtentReports report;
-//	ExtentTest test;
+	// ExtentReports report;
+	// ExtentTest test;
 
 	public void eventsHandle() {
 		driver = new EventFiringWebDriver(wdriver);
@@ -77,32 +80,41 @@ public class TestExecution {
 		newRolePage = new NewRolePage(driver);
 		employeePage = new EmployeePage(driver);
 		newEmployeePage = new NewEmployeePage(driver);
-//		excel = new ExcelUtility(".//resources/");
-//		report = new ExtentReports(".//report.html");
+		// d = driver.manage().window().getSize();
+		// excel = new ExcelUtility(".//resources/");
+		// report = new ExtentReports(".//report.html");
 	}
 
 	@Test(priority = 0, timeOut = 10000, alwaysRun = true, groups = { "branch", "role", "employee", "create", "reset",
 			"cancel", "search" })
 	public void testLogin() throws InterruptedException {
-//		test = report.startTest("testLogin");
+		// test = report.startTest("testLogin");
 		bankHomePage.fillUserName(driver, "Admin");
-//		test.log(LogStatus.INFO, "username fillied with Admin");
+		// test.log(LogStatus.INFO, "username fillied with Admin");
 		bankHomePage.fillPassword(driver, "Admin");
-//		test.log(LogStatus.INFO, "password filled with Admin");
+		// test.log(LogStatus.INFO, "password filled with Admin");
 		// Thread.sleep(3000);
 		bankHomePage.clickLoginButton(driver);
-//		test.log(LogStatus.INFO, "login button cliked");
+		// test.log(LogStatus.INFO, "login button cliked");
 		String actualResult = driver.getCurrentUrl();
 		Assert.assertEquals(actualResult, ExpectedResult.testLogin);
-//		test.log(LogStatus.PASS, "test case is passed");
-//		report.endTest(test);
+		// test.log(LogStatus.PASS, "test case is passed");
+		// report.endTest(test);
 	}
 
-//	@AfterMethod
-//	public void testResult() {
-//		ITestResult.SUCCESS)
-//		test.log(logStatus, ITestResult.SUCCESS);
-//	}
+	@AfterMethod
+	public void testResult(ITestResult result) {
+		if (result.getStatus() == ITestResult.SUCCESS) {
+			Reporter.log("test passed");
+		} else if (result.getStatus() == ITestResult.FAILURE) {
+			try {
+				driver.switchTo().alert().accept();
+			} catch (Exception e) {
+
+			}
+
+		}
+	}
 
 	@Test(priority = 1, groups = { "branch", "search" })
 	public void testBranchSearch() {
@@ -135,11 +147,10 @@ public class TestExecution {
 		newBranchPage.selectCity("Delhi");
 		newBranchPage.clickSubmit();
 		String alertText = driver.switchTo().alert().getText();
-		driver.switchTo().alert().accept();
+		// driver.switchTo().alert().accept();
 		Reporter.log(alertText, true);
 		String actualResult = alertText;
 		assertTrue(actualResult.contains(ExpectedResult.testBranchCreation));
-
 	}
 
 	@Test(priority = 12, groups = { "branch", "create" })
@@ -258,19 +269,19 @@ public class TestExecution {
 
 	@Test(priority = 8, groups = { "role", "reset" })
 	public void testRoleReset() {
-//		test = report.startTest("testRoleReset");
+		// test = report.startTest("testRoleReset");
 		adminHomePage.clickRolesButton();
-//		test.log(LogStatus.INFO, "roles button clicked");
+		// test.log(LogStatus.INFO, "roles button clicked");
 		rolePage.clickNewRole();
-//		test.log(LogStatus.INFO, "new role button clicked");
+		// test.log(LogStatus.INFO, "new role button clicked");
 		newRolePage.fillRoleName("Regional Manager 1");
-//		test.log(LogStatus.INFO, "role nate entered");
+		// test.log(LogStatus.INFO, "role nate entered");
 		newRolePage.selectRoleType("E");
-//		test.log(LogStatus.INFO, "role type seleced");
+		// test.log(LogStatus.INFO, "role type seleced");
 		newRolePage.clickReset();
-//		test.log(LogStatus.INFO, "reset button clicked");
-//		test.log(LogStatus.PASS, "test passed");
-//		report.endTest(test);
+		// test.log(LogStatus.INFO, "reset button clicked");
+		// test.log(LogStatus.PASS, "test passed");
+		// report.endTest(test);
 
 	}
 
