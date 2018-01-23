@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="suite">
+	<parameter name="url" value="http://www.srssprojects.in"></parameter>
+	<!-- <test name="chrome mac">
+		<parameter name="browser" value="chrome"></parameter>
+		<parameter name="os" value="mac"></parameter>
+		<parameter name="nodeUrl" value="http://192.168.1.2:5555/wd/hub"></parameter>
+		<groups>
+			<run>
+				<include name="search"></include>
+			</run>
+		</groups>
+		<classes>
+			<class name="in.srsssprojects.admin.GridExecution">
+			</class>
+		</classes>
+	</test>
+	<test name="firefox linux">
+		<parameter name="browser" value="firefox"></parameter>
+		<parameter name="os" value="linux"></parameter>
+		<parameter name="nodeUrl" value="http://192.168.1.14:5555/wd/hub"></parameter>
+		<groups>
+			<run>
+				<include name="reset"></include>
+			</run>
+		</groups>
+		<classes>
+			<class name="in.srsssprojects.admin.GridExecution">
+			</class>
+		</classes>
+	</test> -->
+	<test name="chrome windows">
+		<parameter name="browser" value="chrome"></parameter>
+		<parameter name="os" value="windows"></parameter>
+		<parameter name="nodeUrl" value="http://192.168.1.5:5555/wd/hub"></parameter>
+		<groups>
+			<run>
+				<include name="reset"></include>
+			</run>
+		</groups>
+		<classes>
+			<class name="in.srsssprojects.admin.GridExecution">
+			</class>
+		</classes>
+	</test>
+</suite>
